@@ -77,7 +77,7 @@ const ReflecMino = (): JSX.Element => {
         () => {
             const text = [
                 `⬛🟧⬛ ReflecMino ${custom_puzzle_data ? "Custom" : format(date, "yyyy/MM/dd")}`,
-                `🟧⬜🟦 https://yavu.github.io/yv_reflecmino/`,
+                `🟧⬜🟦 https://yavu.github.io/yv_reflecmino/${custom_puzzle_data ? "" : "?date=" + format(date, "yyyyMMdd")}`,
                 `⬛🟦⬛ Solved in ${document.getElementById("timer")?.textContent}`,
             ].join("\n");
             navigator.clipboard.writeText(text)
@@ -121,6 +121,7 @@ const ReflecMino = (): JSX.Element => {
     const [timer_enabled, setTimerEnabled] = useState<boolean>(false);
     const game_start = useCallback(
         () => {
+            console.log(generate(Number(format(date, "yyyyMMdd"))));
             setPuzzleData(
                 custom_puzzle_data
                     ? custom_puzzle_data
