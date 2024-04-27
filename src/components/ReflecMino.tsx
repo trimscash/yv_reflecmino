@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { Box, Button, Divider, Fab, IconButton, Link, Paper, Snackbar, Typography } from '@mui/material';
@@ -137,6 +137,27 @@ const ReflecMino = (): JSX.Element => {
             setHow2PlayVisible(!how2play_visible);
         }, [how2play_visible]
     );
+
+    useEffect(() => {
+      const url = new URL(window.location.href);
+      const date_pram = url.searchParams.get("date") || "";
+      const query_date = new Date(date_pram);
+
+      if (!is_invalid_date(query_date)) {
+        const new_date = isBefore(query_date, new Date())
+          ? query_date
+          : new Date();
+
+        setDate(new_date);
+        setPuzzleData(
+          custom_puzzle_data
+            ? custom_puzzle_data
+            : generate(Number(format(new_date, "yyyyMMdd")))
+        );
+        setPlaying(true);
+        setTimerEnabled(true);
+      }
+    }, []);
 
     return (
         <>
